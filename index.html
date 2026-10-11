@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CanvasWall - Publik</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        h1 {
+            margin-bottom: 15px;
+            font-size: 24px;
+            color: #4CAF50;
+            letter-spacing: 1px;
+        }
+        .canvas-container {
+            background-color: #ffffff;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            border-radius: 8px;
+            overflow: hidden;
+            width: 600px;
+            height: 600px;
+        }
+        canvas {
+            width: 100%;
+            height: 100%;
+            display: block;
+            cursor: pointer;
+        }
+        .footer-note {
+            margin-top: 15px;
+            font-size: 13px;
+            color: #888888;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>CanvasWall</h1>
+    <div class="canvas-container">
+        <!-- Canvas khusus tampilan pengunjung -->
+        <canvas id="publicCanvas" width="1000" height="1000"></canvas>
+    </div>
+    <p class="footer-note">Klik salah satu kotak iklan untuk mengunjungi website sponsor.</p>
+
+    <script>
+        const canvas = document.getElementById('publicCanvas');
+        const ctx = canvas.getContext('2d');
+        const CANVAS_SIZE = 1000;
+
+        let ads = [];
+
+        // Muat data iklan dari LocalStorage
+        function loadPublicAds() {
+            const savedAds = localStorage.getItem('canvasWallAds');
+            if (savedAds) {
+                ads = JSON.parse(savedAds);
+            }
+            drawPublicCanvas();
+        }
+
+        // Gambar canvas (hanya menampilkan iklan, tanpa garis grid editor)
+        function drawPublicCanvas() {
+            ctx.clearRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+            
+            // Background putih
+            ctx.fillStyle = "#ffffff";
+            ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+            // Render semua iklan
+            ads.forEach(ad => {
+                if (ad.imgSrc) {
+                    const img = new Image();
+                    img.src = ad.imgSrc;
+                    if (img.complete) {
+                        ctx.drawImage(img, ad.x, ad.y, ad.w, ad.h);
+                    } else {
+                        img.onload = function() {
+                            ctx.drawImage(img, ad.x, ad.y, ad.w, ad.h);
+                        };
+                    }
+                }
+                // Bingkai tipis
+                ctx.strokeStyle = "#e0e0e0";
+                ctx.lineWidth = 1;
+                ctx.strokeRect(ad.x, ad.y, ad.w, ad.h);
+            });
+        }
+
+        // Pengunjung klik iklan -> Membuka link tujuan
+        canvas.addEventListener('click', function(event) {
+            const rect = canvas.getBoundingClientRect();
+            const scaleX = canvas.width / rect.width;
+            const scaleY = canvas.height / rect.height;
+            
+            const clickX = (event.clientX - rect.left) * scaleX;
+            const clickY = (event.clientY - rect.top) * scaleY;
+
+            let clickedAd = ads.find(ad => 
+                clickX >= ad.x && clickX <= (ad.x + ad.w) &&
+                clickY >= ad.y && clickY <= (ad.y + ad.h)
+            );
+
+            if (clickedAd && clickedAd.link) {
+                window.open(clickedAd.link, '_blank');
+            }
+        });
+
+        loadPublicAds();
+    </script>
+</body>
+</html>

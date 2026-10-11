@@ -1,0 +1,125 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.main-wrapper {
+    display: flex;
+    gap: 30px;
+    max-width: 1400px;
+    width: 100%;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.canvas-container {
+    background-color: #ffffff;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    border-radius: 8px;
+    overflow: hidden;
+    flex-shrink: 0;
+    width: 500px;
+    height: 500px;
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: crosshair;
+}
+
+.control-panel {
+    background-color: #1e1e1e;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+    width: 380px;
+}
+
+.control-panel h1 {
+    font-size: 24px;
+    margin-bottom: 5px;
+    color: #4CAF50;
+}
+
+.subtitle {
+    font-size: 13px;
+    color: #b0b0b0;
+    margin-bottom: 20px;
+}
+
+.info-box {
+    background-color: #2a2a2a;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    font-size: 13px;
+    color: #cccccc;
+}
+
+.info-box ol {
+    margin-left: 18px;
+    margin-top: 5px;
+}
+
+.input-group {
+    margin-bottom: 12px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 4px;
+    color: #dddddd;
+}
+
+.input-group input {
+    width: 100%;
+    padding: 8px 10px;
+    background-color: #2a2a2a;
+    border: 1px solid #444444;
+    color: #ffffff;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.price-tag {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #4CAF50;
+    text-align: center;
+    background-color: #252525;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+.btn-buy {
+    width: 100%;
+    padding: 12px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-weight: bold;
+    font-size: 15px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-buy:hover {
+    background-color: #45a049;
+}
